@@ -10,6 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 private let headerIdentifier = "headerCell"
+private let barIdentifier = "barCell"
 
 class CircleVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate {
 
@@ -23,6 +24,7 @@ class CircleVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
         // Register cell classes
         self.collectionView!.register(CircleHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         self.collectionView!.register(BookCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(BarCell.self, forCellWithReuseIdentifier: barIdentifier)
         collectionView.contentInsetAdjustmentBehavior = .never // Header adjustment for full head-covarage(upper extension)
     }
     
@@ -42,9 +44,14 @@ class CircleVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! BookCell
+        let barCell = collectionView.dequeueReusableCell(withReuseIdentifier: barIdentifier, for: indexPath) as! BarCell
         // Configure the cell
-    
+        if (indexPath.row == 0){
+            return barCell
+        }
+        else {
         return cell
+        }
     }
 
     // MARK: - UICollectionViewFlowLayout
@@ -62,6 +69,9 @@ class CircleVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if(indexPath.row == 0) {
+            return CGSize(width: view.frame.width * 0.9555, height: CGFloat(158))
+        }
         let width = view.frame.width * 0.9555
         let height = CGFloat(220)
         return CGSize(width: width, height: height)
